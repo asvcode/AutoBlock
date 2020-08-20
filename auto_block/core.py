@@ -74,6 +74,14 @@ def auto_block(dir, y_col, train_fol='train', csv='train', seg=False, seg_fold='
                     dls = bl.dataloaders(dir, bs=16)
                     dls.show_batch()
                     break
+        except FileNotFoundError:
+                print('csv file not found')
+        except AttributeError:
+                print('column not found')
+        except IndexError:
+                print('check train folder')
+        except TypeError:
+                print('auto_block needs to have source and y_col(even if there is no csv file)')
     if seg == True:
         print('At Segmentation')
         get_msk = lambda o: f'{dir}/{seg_fold}/{o.stem}{o.suffix}'
@@ -108,11 +116,11 @@ def auto_block(dir, y_col, train_fol='train', csv='train', seg=False, seg_fold='
                             )
             dls = bl.dataloaders(f'{dir}{train_fol}', bs=16)
             dls.show_batch()
-    except FileNotFoundError:
-        print('csv file not found')
-    except AttributeError:
-        print('column not found')
-    except IndexError:
-        print('check train folder')
-    except TypeError:
-        print('auto_block needs to have source and y_col(even if there is no csv file)')
+        except FileNotFoundError:
+            print('csv file not found')
+        except AttributeError:
+            print('column not found')
+        except IndexError:
+            print('check train folder')
+        except TypeError:
+            print('auto_block needs to have source and y_col(even if there is no csv file)')
