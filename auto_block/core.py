@@ -3,6 +3,9 @@
 __all__ = ['auto_block']
 
 # Cell
+import os
+
+# Cell
 def auto_block(dir, y_col, train_fol='train', csv='train'):
     files = os.listdir(dir)
     print(files)
