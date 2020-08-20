@@ -5,6 +5,10 @@ __all__ = ['auto_block']
 # Cell
 import os
 
+from fastai2.basics import *
+from fastai2.callback.all import *
+from fastai2.vision.all import *
+
 # Cell
 def auto_block(dir, y_col, train_fol='train', csv='train'):
     files = os.listdir(dir)
