@@ -18,7 +18,7 @@ def auto_block(dir, y_col, train_fol='train', csv='train'):
             if f.endswith('.csv'):
                 print('csv found')
                 auto_block.read_csv = pd.read_csv(f'{dir}/{csv}.csv')
-                print(hj.read_csv.head(1))
+                print(auto_block.read_csv.head(1))
                 for fil in os.listdir(f'{dir}/{train_fol}'):
                     if fil.endswith('.jpg'):
                         auto_block.get_x = lambda x:f'{dir}/{train_fol}/{x[0]}.jpg'
@@ -79,4 +79,4 @@ def auto_block(dir, y_col, train_fol='train', csv='train'):
     except IndexError:
         print('check train folder')
     except TypeError:
-        print('auto_block needs to have source and y_col(even if there is no csv file)')
+        print('auto_block needs to have a source and a y_col(even if there is no csv file) specified')
