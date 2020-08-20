@@ -71,3 +71,5 @@ def auto_block(dir, y_col, train_fol='train', csv='train'):
         print('column not found')
     except IndexError:
         print('check train folder')
+    except TypeError:
+        print('auto_block needs to have source and y_col(even if there is no csv file)')
