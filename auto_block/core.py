@@ -10,7 +10,7 @@ from fastai2.callback.all import *
 from fastai2.vision.all import *
 
 # Cell
-def auto_block(dir, y_col=None, train_fol='train', csv='train', seg=False, seg_fold='masks'):
+def auto_block(dir, y_col, train_fol='train', csv='train', seg=False, seg_fold='masks'):
     files = os.listdir(dir)
     print(f'>> Folders: {files}')
     if seg == False:
