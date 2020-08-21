@@ -10,15 +10,15 @@ from fastai2.callback.all import *
 from fastai2.vision.all import *
 
 # Cell
-def auto_block(dir, y_col, train_fol='train', csv='train', seg=False, seg_fold='masks'):
+def auto_block(dir, y_col=None, train_fol='train', csv='train', seg=False, seg_fold='masks'):
     files = os.listdir(dir)
-    print(files)
+    print(f'>> Folders: {files}')
     if seg == False:
         print('Non segmentation')
         try:
             for f in files:
                 if f.endswith('.csv'):
-                    print('csv found')
+                    print('>> csv file(s) found')
                     auto_block.read_csv = pd.read_csv(f'{dir}/{csv}.csv')
                     print(auto_block.read_csv.head(1))
                     for fil in os.listdir(f'{dir}/{train_fol}'):
@@ -45,24 +45,19 @@ def auto_block(dir, y_col, train_fol='train', csv='train', seg=False, seg_fold='
                     break
 
                 else:
-                    print('default train.csv does not exist')
+                    print('>> No csv file detected')
                     fil = get_files(f'{dir}/{train_fol}', recurse=True)
                     fileone = fil[0]
                     print(fileone)
                     filename, file_extension = os.path.splitext(fileone)
-                    print(filename, file_extension)
                     if file_extension == '.JPEG':
                         cls_select=PILImage
-                        print('JPEG')
                     if file_extension == '.png':
                         cls_select=PILImage
-                        print('png')
                     if file_extension == '.jpg':
                         cls_select=PILImage
-                        print('jpg')
                     if file_extension == '.dcm':
                         cls_select=PILDicom
-                        print('dcm')
                     else:
                         print('format not found')
                     bl = DataBlock(blocks=(ImageBlock(cls=PILImage), CategoryBlock),
@@ -90,22 +85,16 @@ def auto_block(dir, y_col, train_fol='train', csv='train', seg=False, seg_fold='
             fileone = fil[0]
             print(fileone)
             filename, file_extension = os.path.splitext(fileone)
-            print(filename, file_extension)
             if file_extension == '.JPEG':
                 cls_select=PILImage
-                print('JPEG')
             if file_extension == '.png':
                 cls_select=PILImage
-                print('png')
             if file_extension == '.jpg':
                 cls_select=PILImage
-                print('jpg')
             if file_extension == '.PNG':
                 cls_select=PILImage
-                print('PNG')
             if file_extension == '.dcm':
                 cls_select=PILDicom
-                print('dcm')
             else:
                 print('format not found')
             bl = DataBlock(blocks=(ImageBlock(cls=PILImage), MaskBlock),
