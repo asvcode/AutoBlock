@@ -18,7 +18,6 @@ def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg
         try:
             for f in files:
                 if f.endswith('.csv'):
-                    #print('>> csv file(s) found')
                     autoblock.read_csv = pd.read_csv(f'{dir}/{csv}.csv')
                     print(autoblock.read_csv.head(1))
                     for fil in os.listdir(f'{dir}/{train_folder}'):
@@ -35,7 +34,7 @@ def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg
                             break
 
                     bl = DataBlock(blocks=(ImageBlock(cls=autoblock.block_cls), CategoryBlock),
-                            get_x = auto_block.get_x,
+                            get_x = autoblock.get_x,
                             get_y = Pipeline(ColReader(y_col)),
                             item_tfms=Resize(224),
                             batch_tfms=[Normalize.from_stats(*imagenet_stats)]
@@ -104,7 +103,7 @@ def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg
                 cls_select=PILDicom
             else:
                 print('format not found')
-            bl = DataBlock(blocks=(ImageBlock(cls=cls_select), MaskBlock),
+            bl = DataBlock(blocks=(ImageBlock(cls=PILImage), MaskBlock),
                         get_items = get_image_files,
                         get_y = get_msk,
                         item_tfms=Resize(224),
