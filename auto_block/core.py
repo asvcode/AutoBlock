@@ -19,28 +19,28 @@ def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg
             for f in files:
                 if f.endswith('.csv'):
                     #print('>> csv file(s) found')
-                    auto_block.read_csv = pd.read_csv(f'{dir}/{csv}.csv')
-                    print(auto_block.read_csv.head(1))
+                    autoblock.read_csv = pd.read_csv(f'{dir}/{csv}.csv')
+                    print(autoblock.read_csv.head(1))
                     for fil in os.listdir(f'{dir}/{train_folder}'):
                         if fil.endswith('.jpg'):
-                            auto_block.get_x = lambda x:f'{dir}/{train_folder}/{x[0]}.jpg'
-                            auto_block.block_cls = PILImage
+                            autoblock.get_x = lambda x:f'{dir}/{train_folder}/{x[0]}.jpg'
+                            autoblock.block_cls = PILImage
                             break
                         elif fil.endswith('dcm'):
-                            auto_block.get_x = lambda x:f'{dir}{train_folder}/{x[0]}.dcm'
-                            auto_block.block_cls = PILDicom
+                            autoblock.get_x = lambda x:f'{dir}{train_folder}/{x[0]}.dcm'
+                            autoblock.block_cls = PILDicom
                             break
                         else:
                             print('unable to process')
                             break
 
-                    bl = DataBlock(blocks=(ImageBlock(cls=auto_block.block_cls), CategoryBlock),
+                    bl = DataBlock(blocks=(ImageBlock(cls=autoblock.block_cls), CategoryBlock),
                             get_x = auto_block.get_x,
                             get_y = Pipeline(ColReader(y_col)),
                             item_tfms=Resize(224),
                             batch_tfms=[Normalize.from_stats(*imagenet_stats)]
                             )
-                    dls = bl.dataloaders(auto_block.read_csv, bs=16)
+                    dls = bl.dataloaders(autoblock.read_csv, bs=16)
                     print('>> working....')
                     dls.show_batch()
                     break
@@ -52,21 +52,21 @@ def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg
                     print(fileone)
                     filename, file_extension = os.path.splitext(fileone)
                     if file_extension == '.JPEG':
-                        auto_block.cls_select=PILImage
-                        auto_block.get_items = get_image_files
+                        autoblock.cls_select=PILImage
+                        autoblock.get_items = get_image_files
                     elif file_extension == '.png':
-                        auto_block.cls_select=PILImage
-                        auto_block.get_items = get_image_files
+                        autoblock.cls_select=PILImage
+                        autoblock.get_items = get_image_files
                     elif file_extension == '.jpg':
-                        auto_block.cls_select=PILImage
-                        auto_block.get_items = get_image_files
+                        autoblock.cls_select=PILImage
+                        autoblock.get_items = get_image_files
                     elif file_extension == '.dcm':
-                        auto_block.cls_select=PILDicom
-                        auto_block.get_items = get_dicom_files
+                        autoblock.cls_select=PILDicom
+                        autoblock.get_items = get_dicom_files
                     else:
                         print('format not found')
-                    bl = DataBlock(blocks=(ImageBlock(cls=auto_block.cls_select), CategoryBlock),
-                            get_items = auto_block.get_items,
+                    bl = DataBlock(blocks=(ImageBlock(cls=autoblock.cls_select), CategoryBlock),
+                            get_items = autoblock.get_items,
                             get_y = parent_label,
                             item_tfms=Resize(224),
                             batch_tfms=[Normalize.from_stats(*imagenet_stats)]
@@ -104,7 +104,7 @@ def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg
                 cls_select=PILDicom
             else:
                 print('format not found')
-            bl = DataBlock(blocks=(ImageBlock(cls=PILImage), MaskBlock),
+            bl = DataBlock(blocks=(ImageBlock(cls=cls_select), MaskBlock),
                         get_items = get_image_files,
                         get_y = get_msk,
                         item_tfms=Resize(224),
