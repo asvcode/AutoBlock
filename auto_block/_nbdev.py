@@ -2,7 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"auto_block": "00_core.ipynb"}
+index = {"autoblock": "00_core.ipynb"}
 
 modules = ["core.py"]
 
