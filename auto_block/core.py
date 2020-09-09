@@ -11,7 +11,7 @@ from fastai.vision.all import *
 
 # Cell
 def autoblock(dir, y_col=None, train_folder='train', csv='train', seg=False, seg_fold='masks'):
-    """Automatically create a datablock"""
+    """Automatically create a datablock specify if segmentation is required"""
     files = os.listdir(dir)
     print(f'>> Files & Folders: {files}\n')
     if seg == False:
